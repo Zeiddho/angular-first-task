@@ -1,0 +1,16 @@
+.users-list {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.user-create-button {
+  margin: 0 auto;
+  width: 300px;
+  font-size: 25px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  font-family: Inter, serif;
+  cursor: pointer;
+}

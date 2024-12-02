@@ -1,0 +1,54 @@
+<div class="form">
+  <form class="form__window" [formGroup]="form">
+
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name" placeholder="Ex. Иван Иванов"/>
+      <mat-error class="form__controls" *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)">
+        имя введено неправильно
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label>введите адрес почты</mat-label>
+      <input type="text"  matInput formControlName="email" placeholder="Ex. pat@example.com"/>
+      <mat-error *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)">
+        почта введена неправильно
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>введите сайт</mat-label>
+      <input type="text" matInput formControlName="website" placeholder="Ex. www.google.com"/>
+      <mat-error class="form__controls" *ngIf="form.controls['website'].invalid && (form.controls['website'].dirty || form.controls['website'].touched)">
+        сайт введен неправильно
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>введите имя компании</mat-label>
+      <input type="text" matInput formControlName="companyName" placeholder="Ex. 'ГАЗПРОМ'"/>
+      <mat-error class="form__controls" *ngIf="form.controls['companyName'].invalid && (form.controls['companyName'].dirty || form.controls['companyName'].touched)">
+        неверное имя компании
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form__buttons">
+      <button  mat-button class="form__buttons-save" style="background-color: #b5d7f7"
+        type="submit"
+        [disabled]="form.invalid"
+        [mat-dialog-close]="userWithUpdatedFields"
+      >
+        СОХРАНИТЬ
+      </button>
+
+      <button mat-flat-button class="form__cancel" (click)="onNoClick()" style="background-color: #fad4d4">
+        ОТМЕНА
+      </button>
+    </div>
+
+  </form>
+</div>
+
+

@@ -1,0 +1,13 @@
+<div class="todo-card">
+  <p>TEKCT ЗАДАЧИ: </p>
+  <span>{{todo.title}}</span>
+
+  <p>АВТОР ЗАДАЧИ: </p>
+  <span>{{todo.userId}}</span>
+
+  <p>ЗАДАЧА ЗАВЕРШЕНА </p>
+  <span>{{todo.completed ? 'ДА': 'НЕТ'}}</span>
+
+  <button (click)="onDeleteTodo(todo.id)" class="todo-card__button">УДАЛИТЬ ЗАДАЧУ</button>
+</div>
+
