@@ -1,5 +1,5 @@
 import {Component, EventEmitter, inject, Input, Output} from "@angular/core";
-import {User} from "../user.interface";
+import {User} from "../../interfaces/user.interface";
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {EditUserDialogComponent} from "../edit-user-dialog/edit-user-dialog.component";
@@ -19,16 +19,18 @@ import {MatSnackBar} from "@angular/material/snack-bar";
     MatCardActions,
     MatButton,
     MatCard,
-    MatCardContent
+    MatCardContent,
   ]
 })
 
 export class UserCardComponent {
+  private snackBar = inject(MatSnackBar);
+
   @Input()
-  user!: User;/*так можно? в какой момент я е инициализирую*/
+  public user!: User;
 
   @Output()
-  deleteUserEvent = new EventEmitter();/*из дочернего компонента в родительский прокидываем событие*/
+  private readonly deleteUserEvent = new EventEmitter();
 
   @Output()
   private readonly dialog = inject(MatDialog);
@@ -36,7 +38,9 @@ export class UserCardComponent {
   @Output()
   readonly editUserEvent = new EventEmitter();
 
-  openEditDialog(): void {
+  public openEditDialog(): void {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
     const dialogRef =
       this.dialog.open(EditUserDialogComponent, {
       data: {user: this.user},
@@ -50,16 +54,16 @@ export class UserCardComponent {
     });
   }
 
-  private snackBar = inject(MatSnackBar);
-
-  openSnackBar(message: string, action: string): void {
+  private openSnackBar(message: string, action: string): void {
     this.snackBar.open(message, action, {
-      duration: 5000, // Длительность отображения уведомления
-      panelClass: ['custom-snackbar'], // Применяем классы стилей
+      duration: 1000,
+      panelClass: ['custom-snackbar'],
     });
   }
 
-  openDeleteDialog(): void {
+  public openDeleteDialog(): void {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
     const dialogRef =
       this.dialog.open(DeleteUserDialogComponent, {
         data: {user: this.user}
@@ -73,11 +77,3 @@ export class UserCardComponent {
     });
   }
 }
-
-
-
-
-
-
-
-

@@ -7,7 +7,7 @@ import {
   MatDialogRef, MatDialogTitle
 } from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
-import {User} from "../user.interface";
+import {User} from "../../interfaces/user.interface";
 
 @Component({
   standalone: true,
@@ -30,10 +30,10 @@ export class DeleteUserDialogComponent {
   ) {};
 
   onConfirm(): void {
-    this.dialogRef.close(true); // Возвращаем true, если пользователь подтвердил удаление
+    this.dialogRef.close(true);
   }
 
   onCancel(): void {
-    this.dialogRef.close(false); // Возвращаем false, если пользователь отменил удаление
+    this.dialogRef.close(false);
   }
 }

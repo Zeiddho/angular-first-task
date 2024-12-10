@@ -100,6 +100,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 
   &__left {
     display: flex;
@@ -173,7 +174,6 @@
     border-width: 0 0 2px;
     border-color: #3C3C3B;
     background-color: transparent;
-    //background: url('../assets/search.png') no-repeat; как добраться до папки
     background-size: contain;
     background-position: right;
   }

@@ -1,64 +1,66 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, inject} from "@angular/core";
 import {AsyncPipe, NgFor} from "@angular/common";
 import {UserCardComponent} from "./user-card/user-card.component";
-import {UsersService} from "../users.service";
-import {FormsModule} from "@angular/forms";
-import {User} from "./user.interface";
-import {MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
-import {MatFormField} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {MatButton, MatButtonModule} from "@angular/material/button";
+import {User} from "../interfaces/user.interface";
+import {MatDialog} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 import {EditUserDialogComponent} from "./edit-user-dialog/edit-user-dialog.component";
-import {AppTtUserDialog} from "../tt-user-dialog/app-tt-user-dialog";
-import {CreateUserFormComponent} from "../create-user-dialog/create-user-dialog.component";
 import {MatCardModule} from '@angular/material/card';
-
-export interface CreateUserI {
-  id: number;
-  name: string;
-  email: string;
-  website: string;
-  company: {
-    name: string;
-  };
-}
+import {Store} from "@ngrx/store";
+import {userActions} from "./store/users.action";
+import {selectUsers} from "./store/users.selectors";
+import {LocalStorageService} from "../services/localStorageService";
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
   standalone: true,
-  imports: [NgFor, AsyncPipe, FormsModule, MatFormField, MatInput, MatDialogContent, MatDialogActions, MatButton, MatDialogTitle, MatDialogClose, UserCardComponent, EditUserDialogComponent, AppTtUserDialog, CreateUserFormComponent, MatCardModule, MatButtonModule],
+  imports: [
+    NgFor,
+    AsyncPipe,
+    UserCardComponent,
+    EditUserDialogComponent,
+    MatCardModule,
+    MatButtonModule
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class UsersListComponent{
-  public readonly usersService = inject(UsersService);/*когда мы инджектим usersService, то в какой момент выполняется то что у него в конструкторе?*/
-  public readonly users = this.usersService.users$;
   private readonly dialog = inject(MatDialog);
   private readonly createUserEvent = new EventEmitter();
-
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly store = inject(Store);
+  public readonly usersFromSelector$ = this.store.select(selectUsers);
 
   constructor() {
-    this.usersService.loadUsers()
-    // this.users.subscribe(
-    //   users => console.log('NEW', users)
-    // )
+    const cachedUsers: User[] | null = this.localStorageService.getItem<User[]>('users-list');
+    console.log('Cached users from localStorage:', cachedUsers);
+
+    if (cachedUsers) {
+      this.store.dispatch(userActions.loadUsersSuccess({ users: cachedUsers }));
+    } else {
+      this.store.dispatch(userActions.loadUsers());
+    }
   }
 
-  public editUsers(user: User) {/*33:00 look*/
-    this.usersService.editUser(user)
+  public editUsers(user: User) {
+    this.store.dispatch(userActions.edit({user}));
   }
 
   private createUsers(user: User) {
-    this.usersService.createUser(user)
+    this.store.dispatch(userActions.create({user}))
   }
 
   public deleteUsers(id: number) {
-    this.usersService.deleteUser(id);
+    this.store.dispatch(userActions.delete({id}))
   }
 
-  public openCreateUserDialog(): void {/*когда нужно передавать внутрь*/
+  public openCreateUserDialog(): void {
+    const buttonElement = document.activeElement as HTMLElement;
+    buttonElement.blur();
+
     const dialogRef =
       this.dialog.open(EditUserDialogComponent)
 
@@ -69,19 +71,4 @@ export class UsersListComponent{
       }
     });
   }
-
-  forkUsers(forkedUser: CreateUserI) {
-    this.usersService.createUserr(forkedUser);
-    //   {
-    //   id: new Date().getTime(),
-    //   name: forkedUser.name,
-    //   email: forkedUser.email,
-    //   website: forkedUser.website,
-    //   companyName: {
-    //     name: forkedUser.company
-    //   }
-    // }
-  }
 }
-
-

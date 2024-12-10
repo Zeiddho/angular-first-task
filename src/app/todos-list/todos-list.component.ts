@@ -1,15 +1,16 @@
 import {Component, inject} from "@angular/core";
-import {TodosApiService} from "../todos-api.service";
-import {TodosListInterface} from "./todos-list.interface";
+import {TodosApiService} from "../services/todos-api.service";
+import {TodosListInterface} from "../interfaces/todos-list.interface";
 import {NgFor} from "@angular/common";/*check it*/
 import {TodoCardComponent} from "./todo-card/todo-card.component";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-todos-list',
   templateUrl: 'todos-list.component.html',
   styleUrl: 'todos-list.component.scss',
   standalone: true,
-  imports: [TodoCardComponent, NgFor]
+  imports: [TodoCardComponent, NgFor, DatePipe],
 })
 
 export class TodosListComponent {
@@ -31,4 +32,8 @@ export class TodosListComponent {
       todos => todos.id !== id
     )
   }
+
+  today: number = Date.now()
 }
+
+

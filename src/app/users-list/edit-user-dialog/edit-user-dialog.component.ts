@@ -1,11 +1,12 @@
-import {Component, Inject, inject, OnInit, signal} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Component, Inject, inject, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf, NgStyle} from "@angular/common";
 import {
   MAT_DIALOG_DATA,
-  MatDialogClose, MatDialogRef,
+  MatDialogClose,
+  MatDialogRef,
 } from "@angular/material/dialog";
-import {User} from "../user.interface";
+import {User} from "../../interfaces/user.interface";
 import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
@@ -15,14 +16,14 @@ import {MatInput, MatInputModule} from "@angular/material/input";
   templateUrl: 'edit-user-dialog.component.html',
   styleUrl: 'edit-user-dialog.component.scss',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, MatDialogClose, MatButton, MatError, MatFormField, MatInput, MatFormFieldModule, MatInputModule, NgStyle,],
+  imports: [ReactiveFormsModule, NgIf, MatDialogClose, MatButton, MatError, MatFormField, MatInput, MatFormFieldModule, MatInputModule, NgStyle],
 })
 
 export class EditUserDialogComponent implements OnInit {
   form!: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    public fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: {user: User},
   ) {}
 
@@ -58,10 +59,6 @@ export class EditUserDialogComponent implements OnInit {
 
   public onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  reset() {
-    this.form.reset()
   }
 }
 

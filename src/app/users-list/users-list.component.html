@@ -1,16 +1,11 @@
-<h1>2222222</h1>
-<app-create-user-form (createNewUser)="forkUsers($event)" ></app-create-user-form>
-
-<app-tt-user-dialog (createUser)="forkUsers($event)"></app-tt-user-dialog>
-
 <button (click)="openCreateUserDialog()" class="user-create-button">СОЗДАТЬ ЮЗЕРА</button>
 <div class="users-list">
-  <div *ngFor='let item of usersService.users$ | async'>
+  <div *ngFor='let item of usersFromSelector$ | async'>
     <app-user-card
       [user]="item"
       (deleteUserEvent)="deleteUsers($event)"
       (editUserEvent)="editUsers($event)"
     >
-    </app-user-card><!--43:00 передаем юзера а в user-card принимаем-->
+    </app-user-card>
   </div>
 </div>
