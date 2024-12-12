@@ -1,0 +1,11 @@
+<button (click)="openCreateUserDialog()" class="user-create-button">СОЗДАТЬ ЮЗЕРА</button>
+<div class="users-list">
+  <div *ngFor='let item of usersFromSelector$ | async'>
+    <app-user-card
+      [user]="item"
+      (deleteUserEvent)="deleteUsers($event)"
+      (editUserEvent)="editUsers($event)"
+    >
+    </app-user-card>
+  </div>
+</div>

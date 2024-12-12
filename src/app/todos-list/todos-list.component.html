@@ -1,0 +1,9 @@
+<p class="todo-date">Today is {{today | date:'medium'}}</p>
+<time></time>
+<div class="todos-list">
+  <div *ngFor="let todo of todos">
+    <app-todo-card [todo]="todo" (deleteTodo)="deleteTodos($event)"></app-todo-card>
+  </div>
+</div>
+
+

@@ -1,0 +1,15 @@
+<div class="user-card">
+  <mat-card-content>
+    <p>{{user.name}}</p>
+    <p>{{user.email}}</p>
+    <p>{{user.website}}</p>
+    <p>{{user.company.name}}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button (click)="openDeleteDialog()" class="user-card__delete-button">УДАЛИТЬ</button>
+    <button mat-button (click)="openEditDialog()" class="user-card__edit-button">РЕДАКТИРОВАТЬ</button>
+  </mat-card-actions>
+</div>
+
+
